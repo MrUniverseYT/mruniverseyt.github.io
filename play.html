@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="google-adsense-account" content="ca-pub-3837223128807235">
+  <meta charset="UTF-8">
+  <title>Play Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="requireAccess()">
+
+<div class="navbar">
+  <h1 id="gameTitle">Loading...</h1>
+  <div class="nav-links">
+    <!-- use relative path so it works on GitHub Pages project sites -->
+    <a href="games.html">Back</a>
+    <button id="fullscreenBtn" class="btn btn-small" type="button">
+      Fullscreen
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <div id="gameContainer" class="game-frame-container">
+    <iframe id="gameFrame" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- access-code logic (defines requireAccess) -->
+<script src="script.js"></script>
+
+<script>
+  // Game list – paths are relative so they work both locally and on GitHub Pages
+  const GAMES = {
+    run3: {
+      name: "Run 3",
+      url: "run3/index.html"
+    },
+    pyl: {
+      name: "Push Your Luck",
+      url: "pushyourluck/index.html"
+    },
+    db: {
+      name: "Drift Boss",
+      url: "driftboss/index.html"
+    },
+    tf: {
+      name: "Tiny Fishing",
+      url: "tinyfishing/index.html"
+    }
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  const gameId = params.get("game");
+  const game = GAMES[gameId];
+
+  const gameTitle = document.getElementById("gameTitle");
+  const gameFrame = document.getElementById("gameFrame");
+
+  if (!game) {
+    gameTitle.textContent = "Game not found";
+  } else {
+    gameTitle.textContent = game.name;
+    gameFrame.src = game.url;
+  }
+
+  // Fullscreen toggle on the container
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+  const gameContainer = document.getElementById("gameContainer");
+
+  fullscreenBtn.addEventListener("click", () => {
+    if (!document.fullscreenElement) {
+      gameContainer.requestFullscreen().catch(err => {
+        console.error("Error attempting fullscreen:", err);
+      });
+    } else {
+      document.exitFullscreen().catch(err => {
+        console.error("Error exiting fullscreen:", err);
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

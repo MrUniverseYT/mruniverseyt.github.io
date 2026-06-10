@@ -193,7 +193,7 @@ res.sendFile(__dirname + "/public/games.html");
 });
 
 // ---------- DEBUG REPORTS ----------
-app.post("/debug-report", (req, res) => {
+app.post("/", (req, res) => {
 try {
 const reportsDir = path.join(__dirname, "reports");
 

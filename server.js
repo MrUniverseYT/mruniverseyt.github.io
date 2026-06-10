@@ -169,9 +169,15 @@ app.get("/admin/reports", adminOnly, (req, res) => {
     if (!fs.existsSync(reportsDir)) return res.json([]);
 
     const files = fs.readdirSync(reportsDir).reverse();
-    const reports = files.map(f => {
-      return JSON.parse(fs.readFileSync(path.join(reportsDir, f), "utf8"));
-    });
+    const reports = files.reduce((acc, f) => {
+      try {
+        const content = fs.readFileSync(path.join(reportsDir, f), "utf8");
+        acc.push(JSON.parse(content));
+      } catch (e) {
+        console.warn(`Skipping bad report file: ${f}`);
+      }
+      return acc;
+    }, []);
 
     res.json(reports);
   } catch (err) {

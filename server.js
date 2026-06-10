@@ -9,7 +9,7 @@ const ADMIN_PASSWORD = "ifyouarentmeyouadmit-you-suck";
 const app = express();
 
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static(__dirname));
 
 app.use(
   session({
@@ -80,10 +80,6 @@ app.post("/redeem", async (req, res) => {
   }
 
   return res.json({ success: false, message: "Code expired" });
-});
-
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
 });
 
 app.get("/admin-login", (req, res) => {

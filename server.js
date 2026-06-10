@@ -194,45 +194,27 @@ res.sendFile(__dirname + "/public/games.html");
 
 // ---------- DEBUG REPORTS ----------
 app.post("/", (req, res) => {
-try {
-const reportsDir = path.join(__dirname, "reports");
+  try {
+    const reportsDir = path.join(__dirname, "reports");
 
-```
-if (!fs.existsSync(reportsDir)) {
-  fs.mkdirSync(reportsDir);
-}
+    if (!fs.existsSync(reportsDir)) {
+      fs.mkdirSync(reportsDir);
+    }
 
-const report = {
-  receivedAt: new Date().toISOString(),
-  ...req.body,
-};
+    const report = {
+      receivedAt: new Date().toISOString(),
+      ...req.body,
+    };
 
-const filename = `report-${Date.now()}.json`;
+    const filename = `report-${Date.now()}.json`;
+    fs.writeFileSync(path.join(reportsDir, filename), JSON.stringify(report, null, 2));
+    console.log(`Debug report saved: ${filename}`);
 
-fs.writeFileSync(
-  path.join(reportsDir, filename),
-  JSON.stringify(report, null, 2)
-);
-
-console.log(`Debug report saved: ${filename}`);
-
-res.json({
-  success: true,
-  message: "Report received",
-});
-```
-
-} catch (err) {
-console.error("Debug report error:", err);
-
-```
-res.status(500).json({
-  success: false,
-  message: "Server error",
-});
-```
-
-}
+    res.json({ success: true, message: "Report received" });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
 
 // ---------- START ----------

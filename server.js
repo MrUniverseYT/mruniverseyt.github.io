@@ -13,9 +13,10 @@ app.use(express.static("public"));
 
 app.use(
   session({
-    secret: "your-secret-key",
+    secret: "arghosting-secret-2024",
     resave: false,
     saveUninitialized: true,
+    cookie: { secure: true }
   })
 );
 

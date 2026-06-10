@@ -82,6 +82,10 @@ app.post("/redeem", async (req, res) => {
   return res.json({ success: false, message: "Code expired" });
 });
 
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "index.html");
+});
+
 app.get("/admin-login", (req, res) => {
   const { pass } = req.query;
   if (pass === ADMIN_PASSWORD) {

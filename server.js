@@ -138,7 +138,7 @@ app.post("/admin/set-expiry", adminOnly, async (req, res) => {
 });
 
 app.get("/games.html", checkAccess, (req, res) => {
-  res.sendFile(__dirname + "/public/games.html");
+  res.sendFile(__dirname + "/games.html");
 });
 
 // ---------- DEBUG REPORTS ----------
@@ -179,6 +179,10 @@ app.get("/admin/reports", adminOnly, (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
+// ---------- START ----------
+const reportsDir = path.join(__dirname, "reports");
+if (!fs.existsSync(reportsDir)) fs.mkdirSync(reportsDir);
 
 app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");

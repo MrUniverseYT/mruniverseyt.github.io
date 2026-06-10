@@ -16,7 +16,7 @@ app.use(
     secret: "arghosting-secret-2024",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { secure: "auto" }
   })
 );
 
